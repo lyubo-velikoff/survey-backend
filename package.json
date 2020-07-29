@@ -1,0 +1,49 @@
+{
+    "name": "survey-backend",
+    "version": "1.0.0",
+    "description": "Node JS backend using express, express-validator, sequelize, sequelize-cli, jest, supertest",
+    "main": "server.js",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-validator": "^6.6.0",
+        "pg": "^8.3.0",
+        "pg-hstore": "^2.3.3"
+    },
+    "devDependencies": {
+        "babel-register": "^6.26.0",
+        "eslint-config-prettier": "^6.11.0",
+        "jest": "^26.1.0",
+        "supertest": "^4.0.2",
+        "sequelize": "^6.3.3",
+        "sequelize-cli": "^6.2.0",
+        "eslint": "^7.5.0",
+        "eslint-formatter-pretty": "^4.0.0"
+    },
+    "scripts": {
+        "start": "node server.js",
+        "local-start": "nodemon server.js",
+        "migrate": "node_modules\\.bin\\sequelize-cli db:migrate",
+        "migrate:reset": "node_modules\\.bin\\sequelize-cli db:migrate:undo:all && npm run migrate",
+        "seed": "node_modules\\.bin\\sequelize-cli db:seed:all",
+        "seed:reset": "node_modules\\.bin\\sequelize-cli db:seed:undo:all && npm run seed",
+        "quick-test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles",
+        "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles",
+        "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
+        "preinstall": "npm i -g nodemon"
+    },
+    "jest": {
+        "setupFiles": [
+            "dotenv/config"
+        ],
+        "testEnvironment": "node",
+        "coveragePathIgnorePatterns": [
+            "/node_modules/",
+            ""
+        ]
+    },
+    "author": "",
+    "license": "ISC"
+}

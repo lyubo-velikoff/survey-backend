@@ -1,0 +1,16 @@
+{
+    "rest-client.environmentVariables": {
+        "$shared": {
+            "baseUrl": "http://localhost:3001",
+        },
+        "local": {
+            "baseUrl": "http://localhost:3001",
+        },
+        "dev": {
+            "baseUrl": "http://localhost:3001",
+        },
+        "prod": {
+            "baseUrl": "http://localhost:3001",
+        }
+    }
+}
