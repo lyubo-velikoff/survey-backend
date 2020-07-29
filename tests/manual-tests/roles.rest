@@ -1,0 +1,27 @@
+### Role ###
+GET {{baseUrl}}/roles?page=0&size=10 HTTP/1.1
+content-type: application/json
+
+### Role by ID ###
+GET {{baseUrl}}/roles/7 HTTP/1.1
+content-type: application/json
+
+### Add Role ###
+POST {{baseUrl}}/roles HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Analyst"
+}
+
+### Update Role ###
+PUT {{baseUrl}}/roles/7 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Maintainer"
+}
+
+### Delete Role ###
+DELETE {{baseUrl}}/roles/7 HTTP/1.1
+content-type: application/json
