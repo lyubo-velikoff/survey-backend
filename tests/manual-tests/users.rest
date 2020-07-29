@@ -1,0 +1,33 @@
+### User ###
+GET {{baseUrl}}/users?page=0&size=10 HTTP/1.1
+content-type: application/json
+
+### User by ID ###
+GET {{baseUrl}}/users/9 HTTP/1.1
+content-type: application/json
+
+### Add User ###
+POST {{baseUrl}}/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Sancho",
+    "gender": "m",
+    "postcode": "ls13 2fd",
+    "dob": "1992-11-27"
+}
+
+### Update User ###
+PUT {{baseUrl}}/users/9 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Sancho Pansa",
+    "gender": "m",
+    "postcode": "ls13 2fd",
+    "dob": "1992-11-27"
+}
+
+### Delete User ###
+DELETE {{baseUrl}}/users/9 HTTP/1.1
+content-type: application/json

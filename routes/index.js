@@ -17,7 +17,7 @@ fs
     })
 
 
-router.use('/categories', routes.CustomListRouter)
-
+router.use('/users', routes.UserRouter)
+router.use('/answers', routes.AnswerRouter)
 
 module.exports = router

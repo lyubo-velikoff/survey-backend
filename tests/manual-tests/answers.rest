@@ -1,0 +1,29 @@
+### Answer ###
+GET {{baseUrl}}/answers?page=0&size=10 HTTP/1.1
+content-type: application/json
+
+### Answer by ID ###
+GET {{baseUrl}}/answers/9 HTTP/1.1
+content-type: application/json
+
+### Add Answer ###
+POST {{baseUrl}}/answers HTTP/1.1
+content-type: application/json
+
+{
+    "answer": 5,
+    "title": "Just a test answer"
+}
+
+### Update Answer ###
+PUT {{baseUrl}}/answers/13 HTTP/1.1
+content-type: application/json
+
+{
+    "answer": 5,
+    "title": "Just a test answer update"
+}
+
+### Delete Answer ###
+DELETE {{baseUrl}}/answers/13 HTTP/1.1
+content-type: application/json
