@@ -41,10 +41,17 @@ module.exports = {
                 },
                 allowNull: false
             },
+            createdAt: {
+                allowNull: false,
+                type: Sequelize.DATE
+            },
+            updatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE
+            }
         }, {
             charset: 'utf8',
             collate: 'utf8_unicode_ci',
-            timestamps: false
         })
     },
     down: async (queryInterface) => {
