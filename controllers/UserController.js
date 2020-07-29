@@ -1,7 +1,7 @@
 const db = require('../models')
 const { getPagination, getPagingData } = require('../utils/pagination')
 const handleError = require('../utils/handleErrors')
-const { User, UserRole, Role } = db
+const { User, UserRole, Role, QuestionAnswer } = db
 
 exports.create = (req, res) => {
     const { name, gender, postcode, dob } = req.body
@@ -9,6 +9,35 @@ exports.create = (req, res) => {
         .then(data => res.send(data))
         .catch(err => handleError(err, res))
 }
+
+exports.answer = (req, res) => {
+    const { questionId, answerId } = req.body
+    User.findByPk(req.params.id)
+        .then((data) => {
+            if (data) {
+                QuestionAnswer.create({ userId: req.params.id, questionId, answerId })
+                    .then((updatedData) => res.send(updatedData))
+                    .catch(updateErr => handleError(updateErr, res))
+            } else {
+                res.send({ errors: [ { msg: 'User does not exist' } ] })
+            }
+        })
+        .catch(err => handleError(err, res))
+}
+
+exports.findAllAnswers = (req, res) => {
+    const { page, size, title } = req.query
+    const { limit, offset } = getPagination(page, size)
+
+    QuestionAnswer.findAndCountAll({
+        limit,
+        offset,
+        include: [{ all: true }]
+    })
+        .then(data => res.send(getPagingData(data)))
+        .catch(err => handleError(err, res))
+}
+
 
 exports.findAll = (req, res) => {
     const { page, size, title } = req.query

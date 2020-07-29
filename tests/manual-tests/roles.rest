@@ -38,7 +38,6 @@ content-type: application/json
     "permissionId": 1
 }
 
-
 ### Delete Role ###
 DELETE {{baseUrl}}/roles/3 HTTP/1.1
 content-type: application/json

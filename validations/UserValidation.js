@@ -8,6 +8,12 @@ exports.create = validate([
     body('dob').escape().trim().exists().isISO8601().toDate(),
 ])
 
+exports.answer = validate([
+    param('id').exists().isInt(),
+    body('questionId').escape().trim().exists().isInt(),
+    body('answerId').escape().trim().exists().isInt(),
+])
+
 exports.findOne = validate([
     param('id').exists().isInt()
 ])

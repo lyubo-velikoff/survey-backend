@@ -28,6 +28,19 @@ content-type: application/json
     "dob": "1992-11-27"
 }
 
+### User answers ###
+GET {{baseUrl}}/users/answers?page=0&size=10 HTTP/1.1
+content-type: application/json
+
+### User answer question ###
+POST {{baseUrl}}/users/1/answers HTTP/1.1
+content-type: application/json
+
+{
+    "questionId": 1,
+    "answerId": 2
+}
+
 ### Update User Role ###
 PUT {{baseUrl}}/users/1/role HTTP/1.1
 content-type: application/json
