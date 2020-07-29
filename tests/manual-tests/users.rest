@@ -28,6 +28,21 @@ content-type: application/json
     "dob": "1992-11-27"
 }
 
+### Update User Role ###
+PUT {{baseUrl}}/users/1/role HTTP/1.1
+content-type: application/json
+
+{
+    "roleId": 1
+}
+### Delete User Role ###
+DELETE {{baseUrl}}/users/1/role HTTP/1.1
+content-type: application/json
+
+{
+    "roleId": 1
+}
+
 ### Delete User ###
 DELETE {{baseUrl}}/users/9 HTTP/1.1
 content-type: application/json

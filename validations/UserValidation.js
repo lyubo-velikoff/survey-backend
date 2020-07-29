@@ -19,6 +19,16 @@ exports.update = validate([
     body('dob').escape().trim().exists().isISO8601().toDate(),
 ])
 
+exports.updateRole = validate([
+    param('id').exists().isInt(),
+    body('roleId').escape().trim().exists().isInt(),
+])
+
+exports.deleteRole = validate([
+    param('id').exists().isInt(),
+    body('roleId').escape().trim().exists().isInt(),
+])
+
 exports.delete = validate([
     param('id').exists().isInt()
 ])

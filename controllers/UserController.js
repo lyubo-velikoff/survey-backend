@@ -1,7 +1,7 @@
 const db = require('../models')
 const { getPagination, getPagingData } = require('../utils/pagination')
 const handleError = require('../utils/handleErrors')
-const { User } = db
+const { User, UserRole, Role } = db
 
 exports.create = (req, res) => {
     const { name, gender, postcode, dob } = req.body
@@ -17,6 +17,8 @@ exports.findAll = (req, res) => {
     User.findAndCountAll({
         limit,
         offset,
+        include: [{ model : Role }]
+        
     })
         .then(data => res.send(getPagingData(data)))
         .catch(err => handleError(err, res))
@@ -32,6 +34,40 @@ exports.update = (req, res) => {
     const { name, gender, postcode, dob } = req.body
     User.update({ name, gender, postcode, dob }, { where : { id: req.params.id } })
         .then(() => this.findOne(req, res))
+        .catch(err => handleError(err, res))
+}
+
+exports.updateRole = (req, res) => {
+    const { roleId } = req.body
+    User.findByPk(req.params.id)
+        .then((data) => {
+            if (data) {
+                // maybe also check if role exists
+                UserRole.findOrCreate({ where: { userId: req.params.id, roleId }, defaults: { roleId } })
+                    .then((updatedData) => res.send(updatedData))
+                    .catch(updateErr => handleError(updateErr, res))
+            } else {
+                res.send({ errors: [ { msg: 'User does not exist' } ] })
+            }
+        })
+        .catch(err => handleError(err, res))
+}
+
+exports.deleteRole = (req, res) => {
+    const { roleId } = req.body
+    User.findByPk(req.params.id)
+        .then((data) => {
+            if (data) {
+                // maybe also check if role exists
+                UserRole.destroy({ where: { userId: req.params.id, roleId } })
+                    .then((updatedData) => {
+                        res.json({ result: updatedData == 1 ? 'Deleted' : 'failed' })
+                    })
+                    .catch(updateErr => handleError(updateErr, res))
+            } else {
+                res.send({ errors: [ { msg: 'User does not exist' } ] })
+            }
+        })
         .catch(err => handleError(err, res))
 }
 
