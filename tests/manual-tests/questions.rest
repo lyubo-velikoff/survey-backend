@@ -1,0 +1,29 @@
+### Question ###
+GET {{baseUrl}}/questions?page=0&size=10 HTTP/1.1
+content-type: application/json
+
+### Question by ID ###
+GET {{baseUrl}}/questions/11 HTTP/1.1
+content-type: application/json
+
+### Add Question ###
+POST {{baseUrl}}/questions HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Feeling happy",
+    "priority": 1
+}
+
+### Update Question ###
+PUT {{baseUrl}}/questions/16 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Feeling sad",
+    "priority": 0
+}
+
+### Delete Question ###
+DELETE {{baseUrl}}/questions/16 HTTP/1.1
+content-type: application/json

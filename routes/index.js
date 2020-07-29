@@ -19,5 +19,7 @@ fs
 
 router.use('/users', routes.UserRouter)
 router.use('/answers', routes.AnswerRouter)
+router.use('/questions', routes.QuestionRouter)
+router.use('/permissions', routes.PermissionRouter)
 
 module.exports = router

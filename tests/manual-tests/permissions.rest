@@ -1,0 +1,27 @@
+### Permission ###
+GET {{baseUrl}}/permissions?page=0&size=10 HTTP/1.1
+content-type: application/json
+
+### Permission by ID ###
+GET {{baseUrl}}/permissions/11 HTTP/1.1
+content-type: application/json
+
+### Add Permission ###
+POST {{baseUrl}}/permissions HTTP/1.1
+content-type: application/json
+
+{
+    "title": "read"
+}
+
+### Update Permission ###
+PUT {{baseUrl}}/permissions/4 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "write"
+}
+
+### Delete Permission ###
+DELETE {{baseUrl}}/permissions/4 HTTP/1.1
+content-type: application/json
