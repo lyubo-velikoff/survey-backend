@@ -13,6 +13,16 @@ exports.update = validate([
     body('name').escape().trim().exists().isString(),
 ])
 
+exports.updatePermission = validate([
+    param('id').exists().isInt(),
+    body('permissionId').escape().trim().exists().isInt(),
+])
+
+exports.deletePermission = validate([
+    param('id').exists().isInt(),
+    body('permissionId').escape().trim().exists().isInt(),
+])
+
 exports.delete = validate([
     param('id').exists().isInt()
 ])
