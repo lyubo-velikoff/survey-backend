@@ -23,10 +23,10 @@ exports.findAllAvailableQuestions = validate([
 ])
 
 exports.update = validate([
-    body('name').escape().trim().exists().isString(),
-    body('gender').escape().trim().exists(), // is enum m or f
-    body('postcode').escape().trim().exists().isString(),
-    body('dob').escape().trim().exists().isISO8601().toDate(),
+    body('name').escape().trim().optional().isString(),
+    body('gender').escape().trim().optional(), // is enum m or f
+    body('postcode').escape().trim().optional().isString(),
+    body('dob').escape().trim().optional().isISO8601().toDate(),
 ])
 
 exports.updateRole = validate([
