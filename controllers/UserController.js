@@ -133,6 +133,16 @@ exports.findOne = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+exports.findUserByName = (req, res) => {
+    User.findOne({
+        where: {
+            name: req.params.name
+        }
+    })
+        .then(data => res.send(data))
+        .catch(err => handleError(err, res))
+}
+
 exports.update = (req, res) => {
     const { name, gender, postcode, dob } = req.body
     User.update({ name, gender, postcode, dob }, { where : { id: req.params.id } })

@@ -2,8 +2,12 @@
 GET {{baseUrl}}/users?page=0&size=10 HTTP/1.1
 content-type: application/json
 
-### User by ID ###
+### User by Name ###
 GET {{baseUrl}}/users/9 HTTP/1.1
+content-type: application/json
+
+### User by ID ###
+GET {{baseUrl}}/users/Lyubo HTTP/1.1
 content-type: application/json
 
 ### Add User ###

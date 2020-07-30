@@ -18,6 +18,10 @@ exports.findOne = validate([
     param('id').exists().isInt()
 ])
 
+exports.findUserByName = validate([
+    param('name').exists().isString()
+])
+
 exports.findAllAvailableQuestions = validate([
     param('id').exists().isInt()
 ])

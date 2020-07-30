@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.post('/', UserValidation.create, UserController.create)
 router.get('/:id/questions', UserValidation.findAllAvailableQuestions, UserController.findAllAvailableQuestions)
+router.get('/:name', UserValidation.findUserByName, UserController.findUserByName) // this is just helping ui
 router.get('/answers', UserController.findAllAnswers)
 router.post('/:id/answers', UserValidation.answer, UserController.answer)
 router.get('/', UserController.findAll)
