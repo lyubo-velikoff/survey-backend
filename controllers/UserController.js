@@ -1,7 +1,53 @@
 const db = require('../models')
 const { getPagination, getPagingData } = require('../utils/pagination')
 const handleError = require('../utils/handleErrors')
-const { User, UserRole, Role, QuestionAnswer } = db
+const Op = db.Sequelize.Op
+const { User, UserRole, Role, QuestionAnswer, Question } = db
+
+const getQuestionsSinceStartOfWeek = async (userId, priority, options) => {
+    const result = await Question.findAndCountAll({
+        ...options,
+        // Helper: display question answer count
+        // attributes: {
+        //     include: [
+        //         [
+        //             db.sequelize.literal(`(
+        //                 SELECT 
+        //                     count(*)
+        //                 FROM 
+        //                     "questionAnswer" AS "QuestionAnswer"
+        //                 WHERE 
+        //                     "QuestionAnswer"."userId" = ${userId} 
+        //                     AND "QuestionAnswer"."questionId" = "Question"."id"
+        //                     AND ("QuestionAnswer"."createdAt" >= date_trunc('week', current_date) 
+        //                     AND "QuestionAnswer"."createdAt" <= current_timestamp)
+        //             )`),
+        //             'questionAnswerCount'
+        //         ]
+        //     ]
+        // },
+        where: {
+            id: { 
+                [Op.notIn]: [
+                    db.sequelize.literal(`(
+                        SELECT 
+                            DISTINCT "questionId" FROM "questionAnswer" AS "QuestionAnswer"
+                        WHERE
+                            "QuestionAnswer"."userId" = ${userId}
+                            AND "QuestionAnswer"."questionId" = "Question"."id"
+                            AND ("QuestionAnswer"."createdAt" >= date_trunc('week', current_date)
+                            AND "QuestionAnswer"."createdAt" <= current_timestamp)
+                    )`)
+                ]
+            },
+            priority
+        },
+        order: db.sequelize.random(),
+        // raw: true
+    })
+
+    return result
+}
 
 exports.create = (req, res) => {
     const { name, gender, postcode, dob } = req.body
@@ -49,7 +95,35 @@ exports.findAll = (req, res) => {
         include: [{ model : Role }]
         
     })
-        .then(data => res.send(getPagingData(data)))
+        .then(data => {
+            res.send(getPagingData(data))
+        })
+        .catch(err => handleError(err, res))
+}
+
+exports.findAllAvailableQuestions = async (req, res) => {
+    const { page, size, title } = req.query
+    const { limit, offset } = getPagination(page, size)
+
+    let options = { limit, offset }
+
+    // 1 = priority, 0 = none priority
+    // running 2 separate queries to get priority questions first
+    // followed by none priority questions
+    getQuestionsSinceStartOfWeek(req.params.id, 1, options)
+        .then(priorityData => {                
+            getQuestionsSinceStartOfWeek(req.params.id, 0, options)
+                .then(nonePriorityData => {
+                    res.send(getPagingData({
+                        count: priorityData.count + nonePriorityData.count,
+                        rows: [
+                            ...priorityData.rows,
+                            ...nonePriorityData.rows
+                        ]
+                    }))
+                })
+                .catch(nonePriorityErr => handleError(nonePriorityErr, res))
+        })
         .catch(err => handleError(err, res))
 }
 

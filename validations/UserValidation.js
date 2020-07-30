@@ -18,6 +18,10 @@ exports.findOne = validate([
     param('id').exists().isInt()
 ])
 
+exports.findAllAvailableQuestions = validate([
+    param('id').exists().isInt()
+])
+
 exports.update = validate([
     body('name').escape().trim().exists().isString(),
     body('gender').escape().trim().exists(), // is enum m or f
