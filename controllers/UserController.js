@@ -135,6 +135,9 @@ exports.findOne = (req, res) => {
 
 exports.findUserByName = (req, res) => {
     User.findOne({
+        include: [{
+            model: Role,
+        }],
         where: {
             name: req.params.name
         }

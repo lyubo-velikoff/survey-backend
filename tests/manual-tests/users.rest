@@ -2,12 +2,12 @@
 GET {{baseUrl}}/users?page=0&size=10 HTTP/1.1
 content-type: application/json
 
-### User by Name ###
-GET {{baseUrl}}/users/9 HTTP/1.1
+### User by ID ###
+GET {{baseUrl}}/users/1 HTTP/1.1
 content-type: application/json
 
-### User by ID ###
-GET {{baseUrl}}/users/Lyubo HTTP/1.1
+### User by Name ###
+GET {{baseUrl}}/users/names/Billy HTTP/1.1
 content-type: application/json
 
 ### Add User ###
@@ -15,7 +15,7 @@ POST {{baseUrl}}/users HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Sancho",
+    "name": "Lyubo",
     "gender": "m",
     "postcode": "ls13 2fd",
     "dob": "1992-11-27"
@@ -26,7 +26,7 @@ PUT {{baseUrl}}/users/1 HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Lyubo Gotiniq",
+    "name": "Lyubo",
     "gender": "m",
     "postcode": "ls13 2fd",
     "dob": "1992-11-27"
@@ -50,12 +50,13 @@ content-type: application/json
 }
 
 ### Update User Role ###
-PUT {{baseUrl}}/users/1/role HTTP/1.1
+PUT {{baseUrl}}/users/2/role HTTP/1.1
 content-type: application/json
 
 {
     "roleId": 1
 }
+
 ### Delete User Role ###
 DELETE {{baseUrl}}/users/1/role HTTP/1.1
 content-type: application/json
@@ -65,5 +66,5 @@ content-type: application/json
 }
 
 ### Delete User ###
-DELETE {{baseUrl}}/users/9 HTTP/1.1
+DELETE {{baseUrl}}/users/19 HTTP/1.1
 content-type: application/json
