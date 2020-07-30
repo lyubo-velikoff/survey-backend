@@ -18,15 +18,19 @@ content-type: application/json
 }
 
 ### Update User ###
-PUT {{baseUrl}}/users/9 HTTP/1.1
+PUT {{baseUrl}}/users/1 HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Sancho Pansa",
+    "name": "Lyubo Gotiniq",
     "gender": "m",
     "postcode": "ls13 2fd",
     "dob": "1992-11-27"
 }
+
+### User questions ###
+GET {{baseUrl}}/users/1/questions?page=0&size=10 HTTP/1.1
+content-type: application/json
 
 ### User answers ###
 GET {{baseUrl}}/users/answers?page=0&size=10 HTTP/1.1
@@ -37,7 +41,7 @@ POST {{baseUrl}}/users/1/answers HTTP/1.1
 content-type: application/json
 
 {
-    "questionId": 1,
+    "questionId": 2,
     "answerId": 2
 }
 
