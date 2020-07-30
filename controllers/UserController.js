@@ -12,14 +12,14 @@ const getQuestionsSinceStartOfWeek = async (userId, priority, options) => {
         //     include: [
         //         [
         //             db.sequelize.literal(`(
-        //                 SELECT 
+        //                 SELECT
         //                     count(*)
-        //                 FROM 
+        //                 FROM
         //                     "questionAnswer" AS "QuestionAnswer"
-        //                 WHERE 
-        //                     "QuestionAnswer"."userId" = ${userId} 
+        //                 WHERE
+        //                     "QuestionAnswer"."userId" = ${userId}
         //                     AND "QuestionAnswer"."questionId" = "Question"."id"
-        //                     AND ("QuestionAnswer"."createdAt" >= date_trunc('week', current_date) 
+        //                     AND ("QuestionAnswer"."createdAt" >= date_trunc('week', current_date)
         //                     AND "QuestionAnswer"."createdAt" <= current_timestamp)
         //             )`),
         //             'questionAnswerCount'
@@ -27,7 +27,7 @@ const getQuestionsSinceStartOfWeek = async (userId, priority, options) => {
         //     ]
         // },
         where: {
-            id: { 
+            id: {
                 [Op.notIn]: [
                     db.sequelize.literal(`(
                         SELECT 
@@ -111,7 +111,7 @@ exports.findAllAvailableQuestions = async (req, res) => {
     // running 2 separate queries to get priority questions first
     // followed by none priority questions
     getQuestionsSinceStartOfWeek(req.params.id, 1, options)
-        .then(priorityData => {                
+        .then(priorityData => {
             getQuestionsSinceStartOfWeek(req.params.id, 0, options)
                 .then(nonePriorityData => {
                     res.send(getPagingData({
