@@ -30,7 +30,10 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     const { title, priority } = req.body
-    Question.update({ title, priority }, { where : { id: req.params.id } })
+    Question.update({
+        ...(title ? { title } : {}),
+        ...(priority ? { priority } : {})
+    }, { where : { id: req.params.id } })
         .then(() => this.findOne(req, res))
         .catch(err => handleError(err, res))
 }
