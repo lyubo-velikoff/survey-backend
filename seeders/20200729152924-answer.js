@@ -4,20 +4,20 @@ module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert('answer', [
             {
-                answer: 0,
-                title: 'Not at all',
-            },
-            {
                 answer: 1,
-                title: 'Several days',
+                title: '0 - Not at all',
             },
             {
                 answer: 2,
-                title: 'More than half the days',
+                title: '1 - Several days',
             },
             {
                 answer: 3,
-                title: 'Nearly every day',
+                title: '2 - More than half the days',
+            },
+            {
+                answer: 4,
+                title: '3 - Nearly every day',
             },
         ], {})
     },
