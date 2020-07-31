@@ -2,6 +2,8 @@
 
 Node JS backend using express, express-validator, sequelize, sequelize-cli and jest
 
+[Project UI](https://github.com/lyubo-velikoff/survey-ui) - using react, redux, tailwind
+
 ## How to run
 
 1. Install dependencies
@@ -58,4 +60,10 @@ node_modules\.bin\sequelize-cli db:seed --seed CurrencySeed.js
   sequelize init:models                       Initializes models
   sequelize init:seeders                      Initializes seeders
   sequelize migration:generate                Generates a new migration file                                                                                                                         [aliases: migration:create]  sequelize model:generate                    Generates a model and its migration                                                                                                                        [aliases: model:create]  sequelize seed:generate                     Generates a new seed file 
+```
+
+## Run test
+
+```
+npm test
 ```
