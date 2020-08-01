@@ -1,0 +1,7 @@
+### Demographic report by gender ###
+GET {{baseUrl}}/reports/demographic/gender HTTP/1.1
+content-type: application/json
+
+### Demographic report by postcode ###
+GET {{baseUrl}}/reports/demographic/postcode HTTP/1.1
+content-type: application/json
