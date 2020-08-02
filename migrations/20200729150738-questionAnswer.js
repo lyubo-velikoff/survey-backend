@@ -36,6 +36,44 @@ const NEW_QUERY = `
     LEFT OUTER JOIN "answer" AS "Answer" ON "QuestionAnswer"."answerId" = "Answer"."id"
 `
 
+const sdvaFunction = `
+    CREATE OR REPLACE FUNCTION public.get_sdva()
+        RETURNS TABLE(
+            "dvaBellow" numeric,
+            "dvaAbove" numeric
+        ) 
+        LANGUAGE 'plpgsql'
+
+        COST 100
+        VOLATILE 
+        ROWS 1000
+    AS $BODY$
+    BEGIN 
+        return query
+            SELECT 
+                "mean" - "std" AS "standard-below-mean",
+                "mean" + "std" AS "standard-above-mean"
+            FROM (
+                SELECT 
+                    STDDEV_POP("counted") AS "std", 
+                    SUM("counted") / COUNT(DISTINCT "userName") AS "mean"
+                FROM (
+                    SELECT 
+                        "userName",
+                        COUNT(*) AS "counted"
+                    FROM 
+                        "questionAnswerView" as "QuestionAnswerView"
+                    WHERE
+                        "QuestionAnswerView"."answerTitle" = '0 - Not at all'
+                    GROUP BY
+                        "userName"
+                ) AS "countedAnswers"
+            ) AS "results";
+
+    END;
+    $BODY$;
+`
+
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('questionAnswer', {
@@ -91,9 +129,11 @@ module.exports = {
             collate: 'utf8_unicode_ci',
         })
         await queryInterface.sequelize.query(`CREATE OR REPLACE VIEW ${VIEW_NAME} AS ${NEW_QUERY}`)
+        await queryInterface.sequelize.query(sdvaFunction)
     },
     down: async (queryInterface) => {
         await queryInterface.dropTable('questionAnswer')
         await queryInterface.sequelize.query(`CREATE OR REPLACE VIEW ${VIEW_NAME} AS ${QUERY}`)
+        await queryInterface.sequelize.query(sdvaFunction)
     }
 }

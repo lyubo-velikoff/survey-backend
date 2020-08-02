@@ -13,3 +13,7 @@ content-type: application/json
 ### Statistic avg weekly responses ###
 GET {{baseUrl}}/reports/statistic/avg-weekly-responses HTTP/1.1
 content-type: application/json
+
+### Statistic list of users bellow (answered with 0 - not at all) 1 standard deviation from population average ###
+GET {{baseUrl}}/reports/statistic/list-users-bellow-sdva HTTP/1.1
+content-type: application/json

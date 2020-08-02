@@ -91,6 +91,30 @@ const getAvgWeeklyResponses = async (filters= {}) => {
     return result
 }
 
+const getListOfUsersBelowSdva = async () => {
+    const [ result ] = await db.sequelize.query(`
+        SELECT 
+            "userName"
+        FROM (
+            SELECT 
+                "userName",
+                COUNT(*) AS "counted"
+            FROM 
+                "questionAnswerView" as "QuestionAnswerView"
+            WHERE
+                "QuestionAnswerView"."answerTitle" = '0 - Not at all'
+            GROUP BY
+                "userName"
+        ) AS "countedAnswers"
+        WHERE
+            "counted" BETWEEN (SELECT "dvaBellow" FROM get_sdva()) AND (SELECT "dvaAbove" FROM get_sdva())
+        ORDER BY "userName"
+    `, {
+        raw: true,
+    })
+    return result
+}
+
 exports.findGenderDemographic = (req, res) => {
     const { questionId } = req.query
     const filters = { questionId }
@@ -119,6 +143,12 @@ exports.findAvgWeeklyResponses = (req, res) => {
     const { questionId } = req.query
     const filters = { questionId: parseInt(questionId, 16) }
     getAvgWeeklyResponses(filters)
+        .then(data => res.send(data))
+        .catch(err => handleError(err, res))
+}
+
+exports.findUserListBellowSdva = (req, res) => {
+    getListOfUsersBelowSdva()
         .then(data => res.send(data))
         .catch(err => handleError(err, res))
 }

@@ -17,6 +17,7 @@ exports.findAll = (req, res) => {
     Question.findAndCountAll({
         limit,
         offset,
+        order: ['id']
     })
         .then(data => res.send(getPagingData(data)))
         .catch(err => handleError(err, res))
