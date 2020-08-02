@@ -14,8 +14,7 @@ module.exports = {
                 allowNull: false
             },
             gender: {
-                type: Sequelize.ENUM,
-                values: ['m', 'f'], // add more here
+                type: Sequelize.STRING(1),
                 allowNull: false
             },
             postcode: {

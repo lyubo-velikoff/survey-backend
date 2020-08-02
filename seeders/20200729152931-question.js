@@ -28,7 +28,19 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                title: 'Being so restless that it is hard to sit still',
+                priority: 1,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
                 title: 'Becoming easily annoyed or irritable',
+                priority: 0,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                title: 'Feeling afraid as if something awful might happen',
                 priority: 0,
                 createdAt: new Date(),
                 updatedAt: new Date(),

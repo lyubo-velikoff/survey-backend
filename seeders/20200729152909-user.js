@@ -1,7 +1,7 @@
 'use strict'
 
 const faker = require('faker')
-let genders = ['m', 'f']
+let genders = ['m', 'f', 'o']
 // faker.locale = 'uk'
 let leedsPostcodes = ['LS1 1AZ','LS1 1BA','LS1 1BL','LS1 1DN','LS1 1DP','LS1 1EB','LS1 1ED','LS1 1EE','LS1 1EF','LS1 1EG']
 

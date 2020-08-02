@@ -6,7 +6,7 @@ const getAnswerCountBreakdown = (field, filters = {}) => {
     const { questionId } = filters
     return QuestionAnswer.findAll({
         attributes: [
-            field,
+            `User.${field}`,
             [db.sequelize.literal('COUNT(CASE "Answer"."title" WHEN \'0 - Not at all\' THEN 1 END)::integer'), 'notAtAll'],
             [db.sequelize.literal('COUNT(CASE "Answer"."title" WHEN \'1 - Several days\' THEN 1 END)::integer'), 'severalDays'],
             [db.sequelize.literal('COUNT(CASE "Answer"."title" WHEN \'2 - More than half the days\' THEN 1 END)::integer'), 'halfDays'],
@@ -29,7 +29,10 @@ const getAnswerCountBreakdown = (field, filters = {}) => {
         where: {
             ...(questionId ? { questionId } : {}),
         },
-        group: [field],
+        group: [ field ],
+        order: [
+            [db.sequelize.literal(`"User"."${field}"`), 'ASC'],
+        ],
         raw: true,
     })
 }
@@ -91,7 +94,7 @@ const getAvgWeeklyResponses = async (filters= {}) => {
 exports.findGenderDemographic = (req, res) => {
     const { questionId } = req.query
     const filters = { questionId }
-    getAnswerCountBreakdown('User.gender', filters)
+    getAnswerCountBreakdown('gender', filters)
         .then(data => res.send(data))
         .catch(err => handleError(err, res))
 }
@@ -99,7 +102,7 @@ exports.findGenderDemographic = (req, res) => {
 exports.findPostcodeDemographic = (req, res) => {
     const { questionId } = req.query
     const filters = { questionId }
-    getAnswerCountBreakdown('User.postcode', filters)
+    getAnswerCountBreakdown('postcode', filters)
         .then(data => res.send(data))
         .catch(err => handleError(err, res))
 }

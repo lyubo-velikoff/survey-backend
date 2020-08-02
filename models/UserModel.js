@@ -24,8 +24,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         gender: {
-            type: DataTypes.ENUM,
-            values: ['m', 'f'], // add more here
+            type: DataTypes.STRING(1),
+            validate: {
+                isIn: [['m', 'f', 'o']]
+            },
             allowNull: false
         },
         postcode: {
