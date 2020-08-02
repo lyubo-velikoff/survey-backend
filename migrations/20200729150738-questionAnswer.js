@@ -1,6 +1,6 @@
 'use strict'
 
-const VIEW_NAME = 'questionAnswerView'
+const VIEW_NAME = '"questionAnswerView"'
 const QUERY = `
     SELECT
         "User"."name" AS "userName", 
@@ -25,6 +25,7 @@ const NEW_QUERY = `
         "Answer"."title" AS "answerTitle",
         EXTRACT(YEAR FROM AGE("User"."dob")) AS "age", 
         "User"."postcode", 
+        "QuestionAnswer"."createdAt", 
         "QuestionAnswer"."userId",
         "QuestionAnswer"."questionId",
         "QuestionAnswer"."answerId"

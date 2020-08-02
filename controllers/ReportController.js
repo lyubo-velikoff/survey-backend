@@ -3,6 +3,7 @@ const handleError = require('../utils/handleErrors')
 const { QuestionAnswer, Question, Answer, User } = db
 
 const getAnswerCountBreakdown = (field, filters = {}) => {
+    const { questionId } = filters
     return QuestionAnswer.findAll({
         attributes: [
             field,
@@ -26,25 +27,95 @@ const getAnswerCountBreakdown = (field, filters = {}) => {
             },
         ],
         where: {
-            // '$User.gender$': { [Op.eq]: 'm' },
-            // questionId,
+            ...(questionId ? { questionId } : {}),
         },
         group: [field],
-        limit: 10,
         raw: true,
     })
 }
 
+const ageRange = (from, to) => `WHEN "QuestionAnswerView"."age" BETWEEN ${from} AND ${to} THEN '${from}-${to}'`
+const countTitle = (title) => `COUNT(CASE "answerTitle" WHEN '${title}' THEN 1 END)::integer AS "${title}"`
+const distinctUserTitle = (title) => `AVG(DISTINCT CASE "answerTitle" WHEN '${title}' THEN "userId" ELSE 0 END)::NUMERIC(10,2) AS "${title}"`
+
+const getAgeRangeData = async (filters = {}) => {
+    const { questionId } = filters
+    const [ result ] = await db.sequelize.query(`
+        SELECT 
+            CASE
+                ${ageRange(0, 9)}
+                ${ageRange(10, 19)}
+                ${ageRange(20, 29)}
+                ${ageRange(30, 39)}
+                ${ageRange(40, 49)}
+                ${ageRange(50, 59)}
+                ${ageRange(60, 69)}
+                ${ageRange(70, 79)}
+                WHEN "QuestionAnswerView"."age" >= 80 THEN '80+'
+            END AS "ageRange", 
+            ${countTitle('0 - Not at all')},
+            ${countTitle('1 - Several days')},
+            ${countTitle('2 - More than half the days')},
+            ${countTitle('3 - Nearly every day')}
+        FROM 
+            "questionAnswerView" as "QuestionAnswerView"
+        ${questionId ? `WHERE "QuestionAnswerView"."questionId" = ${questionId}` : ''}
+        GROUP BY "ageRange"
+        ORDER BY "ageRange"
+    `, {
+        raw: true,
+    })
+    return result
+}
+
+const getAvgWeeklyResponses = async (filters= {}) => {
+    const { questionId } = filters
+    const [ result ] = await db.sequelize.query(`
+        SELECT 
+            to_char(date_trunc('week', "QuestionAnswerView"."createdAt"), 'YYYY-MM-DD') AS "week",
+            ${distinctUserTitle('0 - Not at all')},
+            ${distinctUserTitle('1 - Several days')},
+            ${distinctUserTitle('2 - More than half the days')},
+            ${distinctUserTitle('3 - Nearly every day')}
+        FROM 
+            "questionAnswerView" as "QuestionAnswerView"
+        ${questionId ? `WHERE "QuestionAnswerView"."questionId" = ${questionId}` : ''}
+        GROUP BY "week"
+        ORDER BY "week"
+    `, {
+        raw: true,
+    })
+    return result
+}
+
 exports.findGenderDemographic = (req, res) => {
-    // const { name } = req.body
-    getAnswerCountBreakdown('User.gender')
+    const { questionId } = req.query
+    const filters = { questionId }
+    getAnswerCountBreakdown('User.gender', filters)
         .then(data => res.send(data))
         .catch(err => handleError(err, res))
 }
 
 exports.findPostcodeDemographic = (req, res) => {
-    // const { name } = req.body
-    getAnswerCountBreakdown('User.postcode')
+    const { questionId } = req.query
+    const filters = { questionId }
+    getAnswerCountBreakdown('User.postcode', filters)
+        .then(data => res.send(data))
+        .catch(err => handleError(err, res))
+}
+
+exports.findAgeRangeDemographic = (req, res) => {
+    const { questionId } = req.query
+    const filters = { questionId: parseInt(questionId, 16) }
+    getAgeRangeData(filters)
+        .then(data => res.send(data))
+        .catch(err => handleError(err, res))
+}
+
+exports.findAvgWeeklyResponses = (req, res) => {
+    const { questionId } = req.query
+    const filters = { questionId: parseInt(questionId, 16) }
+    getAvgWeeklyResponses(filters)
         .then(data => res.send(data))
         .catch(err => handleError(err, res))
 }

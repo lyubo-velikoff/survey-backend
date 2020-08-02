@@ -1,7 +1,15 @@
 ### Demographic report by gender ###
-GET {{baseUrl}}/reports/demographic/gender HTTP/1.1
+GET {{baseUrl}}/reports/demographic/gender?questionId=1 HTTP/1.1
 content-type: application/json
 
 ### Demographic report by postcode ###
-GET {{baseUrl}}/reports/demographic/postcode HTTP/1.1
+GET {{baseUrl}}/reports/demographic/postcode?questionId=7 HTTP/1.1
+content-type: application/json
+
+### Demographic report age range ###
+GET {{baseUrl}}/reports/demographic/age?questionId=7 HTTP/1.1
+content-type: application/json
+
+### Statistic avg weekly responses ###
+GET {{baseUrl}}/reports/statistic/avg-weekly-responses HTTP/1.1
 content-type: application/json

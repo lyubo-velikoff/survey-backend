@@ -16,7 +16,7 @@ const generateUsers = (userCount) => {
             name: faker.name.firstName(),
             gender: genders[randomGender],
             postcode: leedsPostcodes[randomPostCode],
-            dob: faker.date.between('1980-01-01', '1999-12-31'),
+            dob: faker.date.between('1930-01-01', '1999-12-31'),
             createdAt: new Date(),
             updatedAt: new Date(),
         })
