@@ -33,7 +33,7 @@ describe('User Endpoints', () => {
     })
     it('should update user', async done => {
         const newUser = {
-            name: 'test user',
+            name: 'test user update',
             gender: 'm',
             postcode: 'bd7 1rd',
             dob: '1980-01-05T00:00:00.000Z'
@@ -57,7 +57,7 @@ describe('User Endpoints', () => {
     })
     it('should delete user', async done => {
         const newUser = {
-            name: 'test user',
+            name: 'test user delete',
             gender: 'm',
             postcode: 'bd7 1rd',
             dob: '1980-01-05T00:00:00.000Z'
