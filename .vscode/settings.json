@@ -7,7 +7,7 @@
             "baseUrl": "http://localhost:3001",
         },
         "dev": {
-            "baseUrl": "http://localhost:3001",
+            "baseUrl": "https://lyubo-survey-backend.herokuapp.com",
         },
         "prod": {
             "baseUrl": "http://localhost:3001",
