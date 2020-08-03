@@ -1,10 +1,18 @@
 # Survey Backend
 
-Node JS backend using express, express-validator, sequelize, sequelize-cli and jest
+Node JS backend using express, postgres, express-validator, sequelize, sequelize-cli, sequelize-erd and jest
 
 [Project UI](https://github.com/lyubo-velikoff/survey-ui) - using react, redux, tailwind
 
-## How to run
+## Project sections
+
+- [How to install](#Install)
+- [Swagger](#Swagger)
+- [Sequelize CLI commands](#Commands)
+- [Run test](#Test)
+- [Generate ERD](#ERD)
+
+## Install
 
 1. Install dependencies
 ```
@@ -13,24 +21,34 @@ npm install
 
 1. Copy .env.example into .env and fill in details
 
-1. Run commands
+1. Run migration and then generate seeds
 ```
-node_modules\.bin\sequelize-cli db:migrate
-node_modules\.bin\sequelize-cli db:seed:all
-node app
+npm run migrate
+npm run seed
+
+node server.js
 // if no errors your server is listening at 3001 (or depending what u configured in .env)
 ```
 
 .env example
 ```
 PORT=3001
-DB_HOST=127.0.0.1
-DB_USERNAME=root
+NODE_ENV=development
+DB_HOST=localhost
+DB_USERNAME=postgres
 DB_PASSWORD=
-DB_DATABASE=avalon
+DB_DATABASE=survey
+DB_PORT = 5432
 ```
 
-## Sequelize cli commands
+## Swagger 
+
+Swagger is in progress, for full breakdown of routes check **"./tests/manual-tests/{filename}.rest"**
+
+Swagger is available at http://localhost:3001/api-docs/
+
+
+## Commands
 
 Run migration
 ```
@@ -42,6 +60,7 @@ Run specific seed
 node_modules\.bin\sequelize-cli db:seed --seed CurrencySeed.js
 ```
 
+List of available commands
 ```
   sequelize db:migrate                        Run pending migrations
   sequelize db:migrate:schema:timestamps:add  Update migration table to have timestamps
@@ -62,8 +81,18 @@ node_modules\.bin\sequelize-cli db:seed --seed CurrencySeed.js
   sequelize migration:generate                Generates a new migration file                                                                                                                         [aliases: migration:create]  sequelize model:generate                    Generates a model and its migration                                                                                                                        [aliases: model:create]  sequelize seed:generate                     Generates a new seed file 
 ```
 
-## Run test
+## Test
 
 ```
 npm test
 ```
+
+## ERD
+
+```
+npm run erd
+```
+
+Example output
+
+![Survey ERD](./erd.svg)
