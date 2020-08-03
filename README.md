@@ -1,3 +1,5 @@
+![Node.js CI](https://github.com/lyubo-velikoff/survey-backend/workflows/Node.js%20CI/badge.svg?branch=master)
+
 # Survey Backend
 
 Node JS backend using express, postgres, express-validator, sequelize, sequelize-cli, sequelize-erd and jest
