@@ -19,6 +19,6 @@ module.exports = {
         })
     },
     down: async (queryInterface) => {
-        await queryInterface.dropTable('role')
+        await queryInterface.dropTable('role', { cascade: true })
     }
 }

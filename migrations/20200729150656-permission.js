@@ -19,6 +19,6 @@ module.exports = {
         })
     },
     down: async (queryInterface) => {
-        await queryInterface.dropTable('permission')
+        await queryInterface.dropTable('permission', { cascade: true })
     }
 }
