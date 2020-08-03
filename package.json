@@ -16,13 +16,14 @@
     },
     "devDependencies": {
         "babel-register": "^6.26.0",
+        "eslint": "^7.5.0",
         "eslint-config-prettier": "^6.11.0",
+        "eslint-formatter-pretty": "^4.0.0",
+        "express-swagger-generator": "^1.1.17",
         "jest": "^26.1.0",
-        "supertest": "^4.0.2",
         "sequelize": "^6.3.3",
         "sequelize-cli": "^6.2.0",
-        "eslint": "^7.5.0",
-        "eslint-formatter-pretty": "^4.0.0"
+        "supertest": "^4.0.2"
     },
     "scripts": {
         "start": "node server.js",
