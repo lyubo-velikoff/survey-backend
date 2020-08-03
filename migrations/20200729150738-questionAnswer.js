@@ -1,22 +1,7 @@
 'use strict'
 
 const VIEW_NAME = '"questionAnswerView"'
-const QUERY = `
-    SELECT
-        "User"."name" AS "userName", 
-        "Question"."title" AS "questionTitle", 
-        "Answer"."title" AS "answerTitle",
-        EXTRACT(YEAR FROM AGE("User"."dob")) AS "age", 
-        "User"."postcode", 
-        "QuestionAnswer"."userId",
-        "QuestionAnswer"."questionId",
-        "QuestionAnswer"."answerId"
-    FROM 
-        "questionAnswer" AS "QuestionAnswer" 
-    LEFT OUTER JOIN "question" AS "Question" ON "QuestionAnswer"."questionId" = "Question"."id"
-    LEFT OUTER JOIN "user" AS "User" ON "QuestionAnswer"."userId" = "User"."id" 
-    LEFT OUTER JOIN "answer" AS "Answer" ON "QuestionAnswer"."answerId" = "Answer"."id"
-`
+
 const NEW_QUERY = `
     SELECT
         "QuestionAnswer"."id",
@@ -36,9 +21,9 @@ const NEW_QUERY = `
     LEFT OUTER JOIN "user" AS "User" ON "QuestionAnswer"."userId" = "User"."id" 
     LEFT OUTER JOIN "answer" AS "Answer" ON "QuestionAnswer"."answerId" = "Answer"."id"
 `
+const FUNCTION_NAME = 'public.get_sdva()'
 
 const sdvaFunction = `
-    CREATE OR REPLACE FUNCTION public.get_sdva()
         RETURNS TABLE(
             "dvaBellow" numeric,
             "dvaAbove" numeric
@@ -130,11 +115,11 @@ module.exports = {
             collate: 'utf8_unicode_ci',
         })
         await queryInterface.sequelize.query(`CREATE OR REPLACE VIEW ${VIEW_NAME} AS ${NEW_QUERY}`)
-        await queryInterface.sequelize.query(sdvaFunction)
+        await queryInterface.sequelize.query(`CREATE OR REPLACE FUNCTION ${FUNCTION_NAME} ${sdvaFunction}`)
     },
     down: async (queryInterface) => {
-        await queryInterface.dropTable('questionAnswer')
-        await queryInterface.sequelize.query(`CREATE OR REPLACE VIEW ${VIEW_NAME} AS ${QUERY}`)
-        await queryInterface.sequelize.query(sdvaFunction)
+        await queryInterface.dropTable('questionAnswer', { cascade: true })
+        await queryInterface.sequelize.query(`DROP VIEW IF EXISTS ${VIEW_NAME} CASCADE`)
+        await queryInterface.sequelize.query(`DROP FUNCTION IF EXISTS ${FUNCTION_NAME} CASCADE`)
     }
 }
