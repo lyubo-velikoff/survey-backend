@@ -35,7 +35,7 @@
         "quick-test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles",
         "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles",
         "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
-        "preinstall": "npm i -g nodemon sequelize-erd",
+        "preinstall": "npm i -g nodemon sequelize-erd sequelize",
         "erd": "sequelize-erd --source ./tasks/generate-erd.js --destination ./erd.svg --engine fdp"
     },
     "jest": {
