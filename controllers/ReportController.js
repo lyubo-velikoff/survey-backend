@@ -107,7 +107,7 @@ const getListOfUsersBelowSdva = async () => {
                 "userName"
         ) AS "countedAnswers"
         WHERE
-            "counted" BETWEEN (SELECT "dvaBellow" FROM get_sdva()) AND (SELECT "dvaAbove" FROM get_sdva())
+            "counted" < (SELECT "dvaBellow" FROM get_sdva())
         ORDER BY "userName"
     `, {
         raw: true,
