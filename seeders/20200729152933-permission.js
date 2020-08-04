@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * Seeder that inserts predefined permissions
+ */
+
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert('permission', [

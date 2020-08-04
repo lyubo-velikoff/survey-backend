@@ -1,4 +1,9 @@
 'use strict'
+
+/**
+ * Seeder that generate some random answers, role permissions and assigns roles to users
+ */
+
 const faker = require('faker')
 
 const chooseRandom = (array) => Math.floor(Math.random() * array.length)

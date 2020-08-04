@@ -2,6 +2,10 @@ const request = require('supertest')
 const app = require('../app')
 
 describe('Question Endpoints', () => {
+
+    /**
+     * Fetch questions
+     */
     it('should fetch all questions', async done => {
         const res = await request(app)
             .get('/questions')
@@ -12,6 +16,10 @@ describe('Question Endpoints', () => {
         expect(res.body).toHaveProperty('currentPage')
         done()
     })
+
+    /**
+     * Create question
+     */
     it('should create question', async done => {
         const newQuestion = {
             title: 'Feeling happy',
@@ -29,6 +37,10 @@ describe('Question Endpoints', () => {
         expect(res.body).toMatchObject(newQuestion)
         done()
     })
+
+    /**
+     * Update question
+     */
     it('should update question', async done => {
         const newQuestion = {
             title: 'Feeling lonely',
@@ -51,6 +63,10 @@ describe('Question Endpoints', () => {
         expect(question.body.title).toBe(`${newQuestion.title} updated`)
         done()
     })
+
+    /**
+     * Delete question
+     */
     it('should delete question', async done => {
         const newQuestion = {
             title: 'Feeling tired',

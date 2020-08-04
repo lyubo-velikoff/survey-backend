@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * Seeder that bulk inserts answer types
+ */
+
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert('answer', [

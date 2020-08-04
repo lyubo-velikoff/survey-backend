@@ -4,6 +4,11 @@ const handleError = require('../utils/handleErrors')
 const Op = db.Sequelize.Op
 const { User, UserRole, Role, QuestionAnswer, Question } = db
 
+/**
+ * Query question model to find and count questions and retrieve the questions with some metadata
+ * @param { Object } req
+ * @param { Object } res
+ */
 const getQuestionsSinceStartOfWeek = async (userId, priority, options) => {
     const result = await Question.findAndCountAll({
         ...options,
@@ -49,6 +54,11 @@ const getQuestionsSinceStartOfWeek = async (userId, priority, options) => {
     return result
 }
 
+/**
+ * Execute route to create a user
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.create = (req, res) => {
     const { name, gender, postcode, dob } = req.body
     User.create({ name, gender, postcode, dob })
@@ -56,6 +66,11 @@ exports.create = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to answer a question
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.answer = (req, res) => {
     const { questionId, answerId } = req.body
     User.findByPk(req.params.id)
@@ -71,6 +86,11 @@ exports.answer = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to query question answer model and get all answers in an object with some metadata
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.findAllAnswers = (req, res) => {
     const { page, size, title } = req.query
     const { limit, offset } = getPagination(page, size)
@@ -84,7 +104,11 @@ exports.findAllAnswers = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
-
+/**
+ * Execute route to get an object with all users and some metadata
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.findAll = (req, res) => {
     const { page, size, title } = req.query
     const { limit, offset } = getPagination(page, size)
@@ -101,6 +125,11 @@ exports.findAll = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to find all available questions to user and return an object with therm and some metadata
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.findAllAvailableQuestions = async (req, res) => {
     const { page, size, title } = req.query
     const { limit, offset } = getPagination(page, size)
@@ -127,12 +156,22 @@ exports.findAllAvailableQuestions = async (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to find a specific user
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.findOne = (req, res) => {
     User.findByPk(req.params.id)
         .then(data => res.send(data))
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to find a specific user by name
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.findUserByName = (req, res) => {
     User.findOne({
         include: [{
@@ -146,6 +185,11 @@ exports.findUserByName = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to update user details
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.update = (req, res) => {
     const { name, gender, postcode, dob } = req.body
     User.update({ name, gender, postcode, dob }, { where : { id: req.params.id } })
@@ -153,6 +197,11 @@ exports.update = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to update a role to a user
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.updateRole = (req, res) => {
     const { roleId } = req.body
     User.findByPk(req.params.id)
@@ -169,6 +218,11 @@ exports.updateRole = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to delete a role from a user
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.deleteRole = (req, res) => {
     const { roleId } = req.body
     User.findByPk(req.params.id)
@@ -187,12 +241,13 @@ exports.deleteRole = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to delete a specific user
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.delete = (req, res) => {
     User.destroy({ where : { id: req.params.id } })
         .then(data => res.json({ result: data == 1 ? 'Deleted' : 'failed' }))
         .catch(err => handleError(err, res))
-}
-
-exports.deleteAll = (req, res) => {
-
 }

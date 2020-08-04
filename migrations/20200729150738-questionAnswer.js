@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * Migration that creates "questionAnswerView", "get_sdva() function" and questionAnswer table, drops them if failed
+ */
+
 const VIEW_NAME = '"questionAnswerView"'
 
 const NEW_QUERY = `

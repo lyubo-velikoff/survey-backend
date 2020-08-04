@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * Seeder that generates some random users, and 2 predefined ones for testing
+ */
+
 const faker = require('faker')
 let genders = ['m', 'f', 'o']
 // faker.locale = 'uk'

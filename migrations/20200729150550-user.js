@@ -1,4 +1,7 @@
 'use strict'
+/**
+ * Migration that creates a user table and drops table if migration failed
+ */
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('user', {
