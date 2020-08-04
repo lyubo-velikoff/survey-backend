@@ -1,4 +1,7 @@
 'use strict'
+/**
+ * Migration that creates question table and drops it if failed
+ */
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('question', {

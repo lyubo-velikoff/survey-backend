@@ -22,7 +22,7 @@ exports.findUserByName = validate([
     param('name').exists().isString()
 ])
 
-exports.findAllAvailableQuestions = validate([
+exports.findAvailableQuestion = validate([
     param('id').exists().isInt()
 ])
 

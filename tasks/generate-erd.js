@@ -1,3 +1,7 @@
+/**
+ * Task that exports models and sequelize info so that "sequelize-erd" package can run them
+ */
+
 const { sequelize } = require('../models/index.js')
 
 // Require our models. Running each module registers the model into sequelize

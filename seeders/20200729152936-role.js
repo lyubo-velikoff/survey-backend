@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * Seeder that bulk inserts predefined roles
+ */
+
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert('role', [

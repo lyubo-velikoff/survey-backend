@@ -2,6 +2,10 @@ const request = require('supertest')
 const app = require('../app')
 
 describe('User Endpoints', () => {
+
+    /**
+     * Fetch users
+     */
     it('should fetch all users', async done => {
         const res = await request(app)
             .get('/users?page=0&size=10')
@@ -12,6 +16,10 @@ describe('User Endpoints', () => {
         expect(res.body).toHaveProperty('currentPage')
         done()
     })
+    
+    /**
+     * Create user
+     */
     it('should create user', async done => {
         const newUser = {
             name: 'test user',
@@ -31,6 +39,10 @@ describe('User Endpoints', () => {
         expect(res.body).toMatchObject(newUser)
         done()
     })
+
+    /**
+     * Update user
+     */
     it('should update user', async done => {
         const newUser = {
             name: 'test user update',
@@ -55,6 +67,10 @@ describe('User Endpoints', () => {
         expect(user.body.name).toBe(`${newUser.name} updated`)
         done()
     })
+    
+    /**
+     * Delete user
+     */
     it('should delete user', async done => {
         const newUser = {
             name: 'test user delete',

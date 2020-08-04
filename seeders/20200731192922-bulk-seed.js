@@ -1,4 +1,9 @@
 'use strict'
+
+/**
+ * Seeder that generate some random answers, role permissions and assigns roles to users
+ */
+
 const faker = require('faker')
 
 const chooseRandom = (array) => Math.floor(Math.random() * array.length)
@@ -67,7 +72,7 @@ module.exports = {
             'SELECT id FROM "public"."role"'
         )
 
-        const userRoles = generateRoles(100, userIds, roleIds)
+        const userRoles = generateRoles(200, userIds, roleIds)
 
         await queryInterface.bulkInsert('userRole', userRoles, {})
         

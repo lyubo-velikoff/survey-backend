@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * Seeder that bulk inserts a predefined list of questions
+ */
+
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert('question', [

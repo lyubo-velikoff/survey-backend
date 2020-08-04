@@ -1,4 +1,7 @@
 'use strict'
+/**
+ * Migration creates a userRole table and drops it if failed
+ */
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('userRole', {

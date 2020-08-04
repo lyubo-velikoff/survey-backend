@@ -3,6 +3,11 @@ const { getPagination, getPagingData } = require('../utils/pagination')
 const handleError = require('../utils/handleErrors')
 const { Role, RolePermission, Permission } = db
 
+/**
+ * Execute route to create a role
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.create = (req, res) => {
     const { name } = req.body
     Role.create({ name })
@@ -10,6 +15,11 @@ exports.create = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to count and retrieve roles from role model and return object with roles and metadata
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.findAll = (req, res) => {
     const { page, size, title } = req.query
     const { limit, offset } = getPagination(page, size)
@@ -23,12 +33,22 @@ exports.findAll = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to find a specific role
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.findOne = (req, res) => {
     Role.findByPk(req.params.id)
         .then(data => res.send(data))
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to update a specific role
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.update = (req, res) => {
     const { name } = req.body
     Role.update({ name }, { where : { id: req.params.id } })
@@ -36,6 +56,11 @@ exports.update = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to update a specific permission
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.updatePermission = (req, res) => {
     const { permissionId } = req.body
     Role.findByPk(req.params.id)
@@ -52,6 +77,11 @@ exports.updatePermission = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to delete a specific permission
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.deletePermission = (req, res) => {
     const { permissionId } = req.body
     Role.findByPk(req.params.id)
@@ -70,12 +100,13 @@ exports.deletePermission = (req, res) => {
         .catch(err => handleError(err, res))
 }
 
+/**
+ * Execute route to delete a specific role
+ * @param { Object } req
+ * @param { Object } res
+ */
 exports.delete = (req, res) => {
     Role.destroy({ where : { id: req.params.id } })
         .then(data => res.json({ result: data == 1 ? 'Deleted' : 'failed' }))
         .catch(err => handleError(err, res))
-}
-
-exports.deleteAll = (req, res) => {
-
 }

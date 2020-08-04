@@ -4,7 +4,7 @@ const { UserValidation } = require('../validations')
 const router = express.Router()
 
 router.post('/', UserValidation.create, UserController.create)
-router.get('/:id/questions', UserValidation.findAllAvailableQuestions, UserController.findAllAvailableQuestions)
+router.get('/:id/question', UserValidation.findAvailableQuestion, UserController.findAvailableQuestion)
 
 
 /**

@@ -32,8 +32,8 @@ content-type: application/json
     "dob": "1992-11-27"
 }
 
-### User questions ###
-GET {{baseUrl}}/users/1/questions?page=0&size=10 HTTP/1.1
+### User available question ###
+GET {{baseUrl}}/users/1/question HTTP/1.1
 content-type: application/json
 
 ### User answers ###
@@ -45,7 +45,7 @@ POST {{baseUrl}}/users/1/answers HTTP/1.1
 content-type: application/json
 
 {
-    "questionId": 2,
+    "questionId": 10,
     "answerId": 2
 }
 

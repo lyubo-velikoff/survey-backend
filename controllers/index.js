@@ -4,6 +4,9 @@ const path = require('path')
 const basename = path.basename(__filename)
 const controller = {}
 
+/**
+ * Loop through the folder and import all controllers
+ */
 fs
     .readdirSync(__dirname)
     .filter(file => {

@@ -8,6 +8,9 @@ const env = process.env.NODE_ENV || 'development'
 const config = require(__dirname + '/../config/config.js')[env]
 const db = {}
 
+/**
+ * Set up sequelize
+ */
 let sequelize
 if (config.use_env_variable) {
     sequelize = new Sequelize(process.env[config.use_env_variable], config)
@@ -15,6 +18,9 @@ if (config.use_env_variable) {
     sequelize = new Sequelize(config.database, config.username, config.password, config)
 }
 
+/**
+ * Loop through .js files and imports them as models
+ */
 fs
     .readdirSync(__dirname)
     .filter(file => {
@@ -25,6 +31,9 @@ fs
         db[model.name] = model
     })
 
+/**
+ * Activate model associations
+ */
 Object.keys(db).forEach(modelName => {
     if (db[modelName].associate) {
         db[modelName].associate(db)
