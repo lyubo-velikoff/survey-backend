@@ -11,7 +11,8 @@ const { User, UserRole, Role, QuestionAnswer, Question } = db
  */
 const getQuestionSinceStartOfWeek = async (userId, priority) => {
     const [ result ] = await db.sequelize.query(`
-        SELECT 
+        SELECT
+            "Question"."id",
             "Question"."title",
             "Question"."priority"
         FROM 
@@ -24,7 +25,7 @@ const getQuestionSinceStartOfWeek = async (userId, priority) => {
             "QuestionAnswer"."userId" = ${userId}
             AND "Question"."priority" = ${priority}
             AND "QuestionAnswer"."createdAt" BETWEEN DATE_TRUNC('week', CURRENT_DATE) AND CURRENT_TIMESTAMP
-        GROUP BY "Question"."title", "Question"."priority"
+        GROUP BY "Question"."id", "Question"."title", "Question"."priority"
         ORDER BY RANDOM()
         LIMIT 1
     `, { raw: true })
@@ -37,13 +38,17 @@ const getQuestionSinceStartOfWeek = async (userId, priority) => {
  */
 const getLeastAnsweredQuestion = async (userId) => {
     const [ result ] = await db.sequelize.query(`
-        SELECT 
-            "questionTitle", 
+        SELECT
+            "id",
+            "title",
+            "priority",
             min("answerCount") "leastCount"
         FROM (
-            SELECT 
-                "Question"."title" as "questionTitle",
-                count(*) as "answerCount"
+            SELECT
+                "Question"."id",
+                "Question"."title",
+                "Question"."priority",
+                COUNT(*) as "answerCount"
             FROM 
                 "questionAnswer" AS "QuestionAnswer"
             LEFT OUTER JOIN "question" AS "Question" 
@@ -53,10 +58,10 @@ const getLeastAnsweredQuestion = async (userId) => {
             WHERE
                 "QuestionAnswer"."userId" = ${userId}
                 AND "QuestionAnswer"."createdAt" BETWEEN DATE_TRUNC('week', CURRENT_DATE) AND CURRENT_TIMESTAMP
-            GROUP BY "questionTitle"
+            GROUP BY "Question"."id", "Question"."title", "Question"."priority"
             ORDER BY RANDOM()
         ) AS "answers"
-        GROUP BY "questionTitle"
+        GROUP BY "id", "title", "priority"
         HAVING COUNT(*) = MIN("answerCount")
         ORDER BY RANDOM()
         LIMIT 1
