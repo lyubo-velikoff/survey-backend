@@ -10,25 +10,29 @@ const { User, UserRole, Role, QuestionAnswer, Question } = db
  * @param { Integer } priority
  */
 const getQuestionSinceStartOfWeek = async (userId, priority) => {
-    const [ result ] = await db.sequelize.query(`
-        SELECT
-            "Question"."id",
-            "Question"."title",
-            "Question"."priority"
-        FROM 
-            "questionAnswer" AS "QuestionAnswer"
-        LEFT OUTER JOIN "question" AS "Question" 
-            ON "QuestionAnswer"."questionId" = "Question"."id"
-        LEFT OUTER JOIN "user" AS "User" 
-            ON "QuestionAnswer"."userId" = "User"."id" 
-        WHERE
-            "QuestionAnswer"."userId" = ${userId}
-            AND "Question"."priority" = ${priority}
-            AND "QuestionAnswer"."createdAt" BETWEEN DATE_TRUNC('week', CURRENT_DATE) AND CURRENT_TIMESTAMP
-        GROUP BY "Question"."id", "Question"."title", "Question"."priority"
-        ORDER BY RANDOM()
-        LIMIT 1
-    `, { raw: true })
+    const result = await Question.findOne({
+        // Helper: display question answer count
+        attributes: ['id', 'title', 'priority'],
+        where: {
+            id: {
+                [Op.notIn]: [
+                    db.sequelize.literal(`
+                        SELECT 
+                            DISTINCT "questionId" 
+                        FROM 
+                            "questionAnswer" AS "QuestionAnswer"
+                        WHERE
+                            "QuestionAnswer"."userId" = ${userId}
+                            AND "QuestionAnswer"."questionId" = "Question"."id"
+                            AND "QuestionAnswer"."createdAt" BETWEEN DATE_TRUNC('week', CURRENT_DATE) AND CURRENT_TIMESTAMP
+                    `)
+                ]
+            },
+            priority
+        },
+        order: db.sequelize.random(),
+        raw: true
+    })
     return result
 }
 
@@ -66,7 +70,7 @@ const getLeastAnsweredQuestion = async (userId) => {
         ORDER BY RANDOM()
         LIMIT 1
     `, { raw: true })
-    return result
+    return result && result[0] ? result[0] : null
 }
 
 /**
@@ -153,14 +157,14 @@ exports.findAvailableQuestion = async (req, res) => {
     getQuestionSinceStartOfWeek(id, 1)
         .then((priorityQuestion) => {
             // if there is a question, return response, else get none priority
-            if (priorityQuestion.length > 0) {
+            if (priorityQuestion && priorityQuestion.id) {
                 res.send(priorityQuestion)
             } else {
                 // else get a none priority question
                 getQuestionSinceStartOfWeek(id, 0)
                     .then((nonePriorityQuestion) => {
                         // if there is a none priority question, send response
-                        if (nonePriorityQuestion.length > 0) {
+                        if (nonePriorityQuestion && nonePriorityQuestion.id) {
                             res.send(nonePriorityQuestion)
                         } else {
                             // else get a random question that is the least answered
