@@ -12,6 +12,7 @@ Node JS backend using express, postgres, express-validator, sequelize, sequelize
 ## Project sections
 
 - [How to install](#Install)
+- [How to start](#Start)
 - [Swagger](#Swagger)
 - [Sequelize CLI commands](#Commands)
 - [Run test](#Test)
@@ -22,6 +23,12 @@ Node JS backend using express, postgres, express-validator, sequelize, sequelize
 1. Install dependencies
 ```
 npm install
+```
+
+## Install
+
+```
+npm start
 ```
 
 1. Copy .env.example into .env and fill in details
