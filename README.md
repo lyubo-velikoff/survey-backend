@@ -4,9 +4,6 @@
 
 Node JS backend using express, postgres, express-validator, sequelize, sequelize-cli, sequelize-erd and jest
 
-**Live demo** Hosted on heroku
-[https://lyubo-survey-backend.herokuapp.com/questions](https://lyubo-survey-backend.herokuapp.com/questions)
-
 [Project UI](https://github.com/lyubo-velikoff/survey-ui) - using react, redux, tailwind
 
 ## Project sections
